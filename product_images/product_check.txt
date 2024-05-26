@@ -1,0 +1,46 @@
+row: Items are placed the same as the text direction.
+row-reverse: Items are placed opposite to the text direction.
+column: Items are placed top to bottom.
+column-reverse: Items are placed bottom to top.
+
+
+
+hstack
+
+
+              <option value="0">請選擇次類別</option>
+              <?php foreach ($resultsubcategory as $subcategory) : ?>
+                <option value="<?php echo $subcategory['category_id_fk']; ?>"><?php echo $subcategory['subcategory_name']; ?></option>
+              <?php endforeach; ?>
+
+
+1.更改當前類別名稱 x =>新增一個額外的read js ,迴圈中增加select
+2.add類別點選確認 O
+3.圖片路徑更換 O
+
+4.搜尋後頁碼消失 x
+
+<script>
+    document.getElementById('main_category_id').addEventListener('change', function() {
+      var mainCategorySelect = document.getElementById('main_category_id');
+      var subCategorySelect = document.getElementById('sub_category_id');
+      var selectedMainCategoryId = mainCategorySelect.value;
+
+      // Clear subcategory options
+      subCategorySelect.innerHTML = '<option value="0">請選擇次類別</option>';
+
+      // Do not display subcategories if no main category is selected
+      if (selectedMainCategoryId === '0') {
+        subCategorySelect.style.display = 'none';
+      } else {
+        subCategorySelect.style.display = 'block';
+
+        // Populate subcategory options based on the selected main category
+        <?php foreach ($resultsubcategory as $subcategory) : ?>
+          if (selectedMainCategoryId === '<?php echo $subcategory['category_id_fk']; ?>') {
+            subCategorySelect.innerHTML += '<option value="<?php echo $subcategory['subcategory_id']; ?>"><?php echo $subcategory['subcategory_name']; ?></option>';
+          }
+        <?php endforeach; ?>
+      }
+    });
+  </script>
